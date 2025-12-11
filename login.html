@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - eduhamoul</title>
+    <link rel="stylesheet" href="scripts/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-container">
+            <div class="login-header">
+                <h1><i class="fas fa-user-shield"></i> تسجيل الدخول</h1>
+                <p>أدخل اسم المستخدم وكلمة المرور للوصول إلى لوحة التحكم</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user"></i> اسم المستخدم:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-key"></i> كلمة المرور:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn"><i class="fas fa-sign-in-alt"></i> دخول</button>
+                
+                <div class="login-info">
+                    <p><i class="fas fa-info-circle"></i> معلومات الدخول الافتراضية:</p>
+                    <p>اسم المستخدم: <strong>admin</strong></p>
+                    <p>كلمة المرور: <strong>eduhamoul123</strong></p>
+                    <p class="warning">تأكد من تغيير كلمة المرور بعد تسجيل الدخول الأول</p>
+                </div>
+            </form>
+            
+            <div class="back-link">
+                <a href="index.html"><i class="fas fa-arrow-right"></i> العودة للصفحة الرئيسية</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="scripts/auth.js"></script>
+</body>
+</html>

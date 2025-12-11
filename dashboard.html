@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - eduhamoul</title>
+    <link rel="stylesheet" href="scripts/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="dashboard-header">
+            <h1><i class="fas fa-tachometer-alt"></i> لوحة تحكم eduhamoul</h1>
+            <div class="user-info">
+                <span id="currentUser">المسؤول</span>
+                <button id="logoutBtn" class="btn-small"><i class="fas fa-sign-out-alt"></i> خروج</button>
+            </div>
+        </header>
+        
+        <div class="dashboard-container">
+            <div class="sidebar">
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active" data-section="links"><i class="fas fa-link"></i> إدارة الروابط</a></li>
+                        <li><a href="#" data-section="add-link"><i class="fas fa-plus-circle"></i> إضافة رابط جديد</a></li>
+                        <li><a href="#" data-section="settings"><i class="fas fa-cog"></i> الإعدادات</a></li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <main class="dashboard-main">
+                <!-- قسم إدارة الروابط -->
+                <section id="links-section" class="dashboard-section active">
+                    <h2><i class="fas fa-list"></i> روابط Google Scripts</h2>
+                    <p>إدارة جميع روابط Google Scripts المستخدمة في العمل</p>
+                    
+                    <div class="controls">
+                        <div class="search-box">
+                            <input type="text" id="searchLinks" placeholder="ابحث عن رابط...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <button id="refreshLinks" class="btn"><i class="fas fa-sync-alt"></i> تحديث القائمة</button>
+                    </div>
+                    
+                    <div class="links-container" id="linksContainer">
+                        <!-- سيتم تحميل الروابط هنا ديناميكياً -->
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i> جاري تحميل الروابط...
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- قسم إضافة رابط جديد -->
+                <section id="add-link-section" class="dashboard-section">
+                    <h2><i class="fas fa-plus-circle"></i> إضافة رابط جديد</h2>
+                    <p>أضف رابط Google Script جديد إلى قاعدة البيانات</p>
+                    
+                    <form id="addLinkForm">
+                        <div class="form-group">
+                            <label for="linkTitle"><i class="fas fa-heading"></i> عنوان الرابط:</label>
+                            <input type="text" id="linkTitle" name="linkTitle" required placeholder="مثال: سكريبت تسجيل الحضور">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="linkUrl"><i class="fas fa-link"></i> رابط Google Script:</label>
+                            <input type="url" id="linkUrl" name="linkUrl" required placeholder="https://script.google.com/...">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="linkDescription"><i class="fas fa-align-left"></i> وصف الرابط:</label>
+                            <textarea id="linkDescription" name="linkDescription" rows="3" placeholder="وصف مختصر لوظيفة السكريبت..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="linkCategory"><i class="fas fa-folder"></i> الفئة:</label>
+                            <select id="linkCategory" name="linkCategory">
+                                <option value="عام">عام</option>
+                                <option value="إدارة">إدارة</option>
+                                <option value="تقارير">تقارير</option>
+                                <option value="حضور وانصراف">حضور وانصراف</option>
+                                <option value="متابعة">متابعة</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn"><i class="fas fa-save"></i> حفظ الرابط</button>
+                    </form>
+                </section>
+                
+                <!-- قسم الإعدادات -->
+                <section id="settings-section" class="dashboard-section">
+                    <h2><i class="fas fa-cog"></i> إعدادات الموقع</h2>
+                    <p>تغيير إعدادات الموقع وكلمة المرور</p>
+                    
+                    <div class="settings-container">
+                        <div class="setting-card">
+                            <h3><i class="fas fa-user-cog"></i> تغيير كلمة المرور</h3>
+                            <form id="changePasswordForm">
+                                <div class="form-group">
+                                    <label for="currentPassword">كلمة المرور الحالية:</label>
+                                    <input type="password" id="currentPassword" name="currentPassword" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="newPassword">كلمة المرور الجديدة:</label>
+                                    <input type="password" id="newPassword" name="newPassword" required minlength="6">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="confirmPassword">تأكيد كلمة المرور الجديدة:</label>
+                                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                                </div>
+                                
+                                <button type="submit" class="btn"><i class="fas fa-key"></i> تغيير كلمة المرور</button>
+                            </form>
+                        </div>
+                        
+                        <div class="setting-card">
+                            <h3><i class="fas fa-info-circle"></i> معلومات الموقع</h3>
+                            <p><strong>اسم الموقع:</strong> eduhamoul</p>
+                            <p><strong>الإصدار:</strong> 1.0</p>
+                            <p><strong>الغرض:</strong> إدارة روابط Google Scripts للعمل</p>
+                            <p><strong>عدد الروابط المخزنة:</strong> <span id="linksCount">0</span></p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+        
+        <footer>
+            <p>© 2023 موقع eduhamoul - نظام إدارة الروابط الداخلية</p>
+        </footer>
+    </div>
+    
+    <script src="scripts/dashboard.js"></script>
+</body>
+</html>
