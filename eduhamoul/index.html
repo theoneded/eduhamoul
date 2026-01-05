@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ادارة الحامول التعليمية  - نظام متكامل</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --accent: #4cc9f0;
+            --dark: #1a1a2e;
+            --darker: #16213e;
+            --light: #f8f9fa;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --radius: 10px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: var(--light);
+            min-height: 100vh;
+            direction: rtl;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* تنسيق صفحة تسجيل الدخول */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(rgba(22, 33, 62, 0.9), rgba(26, 26, 46, 0.9)), 
+                        url('https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=1000');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .login-box {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.8s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .login-header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .login-header p {
+            color: #a0a0c0;
+            font-size: 1.1rem;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-weight: 600;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 42px;
+            color: #a0a0c0;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.6);
+            letter-spacing: 1px;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #a0a0c0;
+            font-size: 0.9rem;
+        }
+        
+        /* تنسيق الصفحة الرئيسية (تظهر بعد تسجيل الدخول) */
+        .main-container {
+            display: none;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* الهيدر */
+        .main-header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        }
+        
+        .logo-text h2 {
+            font-size: 1.8rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+        
+        .logout-btn {
+            padding: 10px 25px;
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(231, 76, 60, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* المحتوى الرئيسي */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+        }
+        
+        .welcome-section {
+            background: linear-gradient(135deg, rgba(106, 17, 203, 0.1), rgba(37, 117, 252, 0.1));
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+        }
+        
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .welcome-section p {
+            color: #a0a0c0;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        
+        /* شبكة الأزرار */
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .button-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .button-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .button-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .button-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+            font-weight: 700;
+        }
+        
+        .button-desc {
+            color: #a0a0c0;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+        
+        /* أنماط الأزرار المختلفة */
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            text-align: center;
+            min-width: 180px;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        
+        .btn:hover:before {
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+        
+        .btn-primary:before {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+        
+        .btn-success:before {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+        
+        .btn-warning:before {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+        }
+        
+        .btn-info {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+        
+        .btn-info:before {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .btn-danger:before {
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+        }
+        
+        .btn-accent {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+        
+        .btn-accent:before {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+        
+        .btn i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* الفوتر */
+        .main-footer {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a0a0c0;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* رسالة الخطأ */
+        .error-message {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            color: #ff6b6b;
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        /* تنسيق للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .login-box {
+                padding: 30px 20px;
+            }
+            
+            .main-header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .buttons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-menu {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+        
+        /* تأثيرات خاصة */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(106, 17, 203, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(106, 17, 203, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(106, 17, 203, 0); }
+        }
+        
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- صفحة تسجيل الدخول -->
+    <div id="loginContainer" class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="logo-icon float" style="margin: 0 auto 20px; width: 80px; height: 80px;">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h1>مرحباً بعودتك</h1>
+                <p>سجل دخولك للوصول إلى جميع الميزات</p>
+		<p>الدخول للموقع من خلال بيانات موقع المديرية </p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username"><i class="fas fa-user"></i> اسم المستخدم</label>
+                    <input type="text" id="username" placeholder="أدخل اسم المستخدم" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password"><i class="fas fa-key"></i> كلمة المرور</label>
+                    <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+                </div>
+                
+                <button type="submit" class="login-btn pulse">
+                    <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                </button>
+                
+                <div id="errorMessage" class="error-message">
+                    اسم المستخدم أو كلمة المرور غير صحيحة!
+                </div>
+            </form>
+            
+            <div class="login-footer">
+                <p>ادارة الحامول التعليمية:</p>
+                <p>نظم المعلومات والتحول الرقمى </p>
+                <p style="margin-top: 15px;">برمجه احمد الشحات </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- الصفحة الرئيسية (تظهر بعد تسجيل الدخول) -->
+    <div id="mainContainer" class="main-container">
+        <!-- الهيدر -->
+        <header class="main-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>ادارة الحامول التعليمية </h2>
+                    <p>منصة نظم المعلومات و التحول الرقمى </p>
+                </div>
+            </div>
+            
+            <div class="user-menu">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <div>
+                        <div id="displaySchoolName" style="font-weight: 700;"></div>
+                        <div id="displayUsername" style="font-size: 0.8rem; color: #a0a0c0;"></div>
+                    </div>
+                </div>
+                
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                </button>
+            </div>
+        </header>
+        
+        <!-- المحتوى الرئيسي -->
+        <main class="main-content">
+            <section class="welcome-section">
+                <h1>مرحباً <span id="welcomeSchoolName"></span> 👋</h1>
+                <p>هذه هي لوحة التحكم الخاصة بك حيث يمكنك الوصول إلى جميع الروابط والميزات المهمة. يمكنك النقر على أي زر لفتح الرابط المرتبط به مباشرة.</p>
+            </section>
+            
+            <h2 style="margin-bottom: 20px; font-size: 2rem; text-align: center;">الروابط السريعة</h2>
+            <p style="text-align: center; color: #a0a0c0; margin-bottom: 30px;">انقر على أي زر للوصول السريع إلى الموقع المرتبط</p>
+            
+            <div class="buttons-grid">
+<!-- زر 6 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3 class="button-title"> صرف شهر ديسمبر  (12)</h3>
+                    <p class="button-desc">  نموذج صرف شهر ديسمبر  (12) للساده العاملين بالحصه .</p>
+                    <a href="https://eduhamoul.blogspot.com/p/srf12.html" target="_blank" class="btn btn-danger">
+                        <i class="fas fa-external-link-alt"></i> نموذج صرف شهر ديسمبر  (12)
+                    </a>
+                </div>
+ <!-- زر 2 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="button-title">نموذج التخطيط والمتابعه والمبانى</h3>
+                    <p class="button-desc">نموذج التخطيط  والمبانى.</p>
+                    <a href="https://eduhamoul.blogspot.com/p/mbany.html" target="_blank" class="btn btn-success">
+                        <i class="fas fa-external-link-alt"></i> نموذج التخطيط  والمبانى
+                    </a>
+                </div>
+                          <!-- زر 1 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #6a11cb, #2575fc);">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="button-title">نموذج تنسيق الاداريين والعمال</h3>
+                    <p class="button-desc">نموذج تنسيق الاداريين والعمال.</p>
+                    <a href="https://eduhamoul.blogspot.com/p/body-text-align-center-font-family.html" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt"></i> استمارة الاداريين والعمال
+                    </a>
+                </div>
+
+                <!-- زر 6 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3 class="button-title"> صرف شهر نوفمبر  (11)</h3>
+                    <p class="button-desc">  نموذج صرف شهر نوفمبر  (11) للساده العاملين بالحصه .</p>
+                    <a href="https://eduhamoul.blogspot.com/p/sarf11.html" target="_blank" class="btn btn-danger">
+                        <i class="fas fa-external-link-alt"></i> نموذج صرف شهر نوفمبر (11)
+                    </a>
+                </div>
+                <!-- زر 6 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3 class="button-title"> صرف شهر أكتوبر (10)</h3>
+                    <p class="button-desc">نموذج صرف شهر أكتوبر  (10).للساده العاملين بالحصه </p>
+                    <a href="https://eduhamoul.blogspot.com/p/sarf10.html" target="_blank" class="btn btn-danger">
+                        <i class="fas fa-external-link-alt"></i> نموذج صرف شهر أكتوبر (10)
+                    </a>
+                </div>
+                <!-- زر 6 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3 class="button-title"> صرف شهر سبتمبر (9)</h3>
+                    <p class="button-desc">نموذج صرف شهر سبتمبر (9).للساده العاملين بالحصه </p>
+                    <a href="https://eduhamoul.blogspot.com/p/srf9.html" target="_blank" class="btn btn-danger">
+                        <i class="fas fa-external-link-alt"></i> نموذج صرف شهر سبتمبر (9)
+                    </a>
+                </div>                
+                <!-- زر 3 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #f39c12, #e67e22);">
+                        <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                    <h3 class="button-title">إجازة اعتيادية</h3>
+                    <p class="button-desc">نظام إجازات المعلمين والإداريين - ادارة الحامول.</p>
+                    <a href="https://eduhamoul.blogspot.com/p/ajazah.html" target="_blank" class="btn btn-warning">
+                        <i class="fas fa-external-link-alt"></i> طلب إجازة اعتيادية
+                    </a>
+                </div>
+                
+                <!-- زر 4 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                        <i class="fas fa-people-arrows"></i>
+                    </div>
+                    <h3 class="button-title">خدمة العامة</h3>
+                    <p class="button-desc">طلب للعمل بنظام الخدمة العامة .</p>
+                    <a href="https://eduhamoul.blogspot.com/p/3ama.html" target="_blank" class="btn btn-info">
+                        <i class="fas fa-external-link-alt"></i> طلب للعمل الخدمة العامة
+                    </a>
+                </div>
+                
+                <!-- زر 5 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="button-title">إحصاء المسددين</h3>
+                    <p class="button-desc">المراجعة الداخلية والحوكمة - إحصاء المسددين.</p>
+                    <a href="https://eduhamoul.blogspot.com/p/sdd.html" target="_blank" class="btn btn-accent">
+                        <i class="fas fa-external-link-alt"></i> نموذج إحصاء المسددين
+                    </a>
+                </div>
+                             
+                <!-- زر 7 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #1abc9c, #16a085);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="button-title">مسابقه الحصه</h3>
+                    <p class="button-desc">لتسجيل اسماء المقبولين بالمدارس من وقع عليهم الاختيار .</p>
+                    <a href="https://eduhamoul.blogspot.com/p/hesamoder.html" target="_blank" class="btn" style="background: linear-gradient(135deg, #1abc9c, #16a085);">
+                        <i class="fas fa-external-link-alt"></i> اضافة معلم بالحصه
+                    </a>
+                </div>
+                <!-- زر 7 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #1abc9c, #16a085);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="button-title">استعلام اخطار مسابقه الحصه</h3>
+                    <p class="button-desc">استعلام المعلمين المقبولين بالحصه.</p>
+                    <a href="https://eduhamoul.blogspot.com/p/info.html" target="_blank" class="btn" style="background: linear-gradient(135deg, #1abc9c, #16a085);">
+                        <i class="fas fa-external-link-alt"></i> إخطار استلام عمل
+                    </a>
+                </div>
+                <!-- زر 8 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #e67e22, #d35400);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="button-title">احصاء استقرارى </h3>
+                    <p class="button-desc">تحديث احصاء استقرارى لمدارس ادارة الحامول 2026 برجاء تحرى الدقه فى البيانات.</p>
+                    <a href="https://eduhamoul.blogspot.com/p/ehsa.html" target="_blank" class="btn" style="background: linear-gradient(135deg, #e67e22, #d35400);">
+                        <i class="fas fa-external-link-alt"></i> احصاء استقرارى 
+                    </a>
+                </div>
+                <!-- زر 1 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #6a11cb, #2575fc);">
+                        <i class="fas fa-hourglass-half fa-spin"></i>
+                    </div>
+                    <h3 class="button-title">قيد الانتظار</h3>
+                    <p class="button-desc">قيد الانتظار.</p>
+                    <a href="#" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt"></i> قيد الانتظار
+                    </a>
+                </div>
+                
+                <!-- زر 2 -->
+                <div class="button-card">
+                    <div class="button-icon" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">
+                        <i class="fas fa-hourglass-half fa-spin"></i>
+                    </div>
+                    <h3 class="button-title">قيد الانتظار</h3>
+                    <p class="button-desc">قيد الانتظار.</p>
+                    <a href="#" target="_blank" class="btn btn-success">
+                        <i class="fas fa-external-link-alt"></i> قيد الانتظار
+                    </a>
+                </div>
+            </div>
+            
+            <!-- ملاحظة -->
+            <div style="background: rgba(52, 152, 219, 0.1); border-radius: 15px; padding: 20px; margin-top: 40px; border: 1px solid rgba(52, 152, 219, 0.3);">
+                <h3 style="color: #3498db; margin-bottom: 10px;"><i class="fas fa-lightbulb"></i> ملاحظة مهمة</h3>
+                <p style="color: #a0a0c0;">إدارة الحامول التعليمية هي إحدى الإدارات التابعة لمديرية التربية والتعليم بمحافظة كفر الشيخ، وتخدم مركز ومدينة الحامول والقرى التابعة له. تضم الإدارة عددًا كبيرًا من المدارس في جميع المراحل التعليمية (رياض أطفال - ابتدائي - إعدادي - ثانوي - تعليم فني)..</p>
+            </div>
+        </main>
+        
+        <!-- الفوتر -->
+        <footer class="main-footer">
+            <p>© 2025 ادارة الحامول التعليمية - جميع الحقوق محفوظة</p>
+            <p style="margin-top: 10px; font-size: 0.85rem;">نظم المعلومات والتحول الرقمى  </p>
+            <p style="margin-top: 5px; font-size: 0.85rem;">تمت البرمجه بواسطه احمد الشحات </p>
+        </footer>
+    </div>
+    
+    <script>
+        // بيانات المستخدمين وكلمات المرور كما هو في ملف Excel
+        const users = {
+            "15012373": "rgknsoei",
+            "15012390": "xuweymfl",
+            "15012766": "tqgvxbeu",
+            "15012752": "xejkpobc",
+            "15012749": "ricmassh",
+            "15012735": "bptoxatf",
+            "15012721": "jssclood",
+            "15012718": "oslbcgmk",
+            "15012704": "surgdnkc",
+            "15012695": "texriboo",
+            "15012681": "wevynkqx",
+            "15012678": "gsotpwxw",
+            "15012664": "aqjsyxrd",
+            "15012527": "rezlbikn",
+            "15012647": "hpdhronm",
+            "15012770": "xpttpdro",
+            "15012629": "adcchylo",
+            "15012616": "ailgglxx",
+            "15012602": "nopabbje",
+            "15012593": "fxqlmbtd",
+            "15012589": "kpwkhfwh",
+            "15012576": "jvztmdye",
+            "15012562": "nezgvrgj",
+            "15012558": "tjoezsrw",
+            "15012545": "trwdzbif",
+            "15012531": "pltpzuxj",
+            "15012134": "bjxgutyc",
+            "15011751": "wertflqu",
+            "15012271": "vdzerxml",
+            "15011973": "mqsdnfev",
+            "15011969": "dyeatkbm",
+            "15011955": "vbxtpuvy",
+            "15011942": "swxjwvxi",
+            "15011938": "raktlvck",
+            "15011924": "ftyolbrl",
+            "15011911": "zotowzqx",
+            "15011907": "datbtsby",
+            "15011898": "vlgyrsdt",
+            "15011884": "tjzqorsp",
+            "15011748": "gxwbvrzz",
+            "15011867": "pgqyresd",
+            "15011990": "vvhbwmku",
+            "15011840": "wtoiblad",
+            "15011836": "ewkujoax",
+            "15011822": "xnlltyqq",
+            "15011819": "djywaziy",
+            "15011805": "pbbixwjm",
+            "15011796": "ructjgpn",
+            "15011782": "waiywbkb",
+            "15011779": "zmxopmhc",
+            "15011765": "ytvjwpmz",
+            "15012117": "sqgyejwu",
+            "15011853": "riauftcm",
+            "15011871": "fuivzwsw",
+            "15012240": "hjtuotmy",
+            "15012236": "dwckdfdz",
+            "15012222": "bxvcpfpt",
+            "15012219": "erfppjtt",
+            "15012205": "sehfncmm",
+            "15012196": "ereyyydm",
+            "15012182": "gfklyrxr",
+            "15012179": "pzfduevp",
+            "15000376": "wsjwnbzl",
+            "15000362": "vsyabpzo",
+            "15000331": "alkvycle",
+            "15008272": "qwoivrms",
+            "15008033": "khbjglrx",
+            "15007925": "bqvhuron",
+            "15007912": "uyrdwptz",
+            "15008356": "kctlmaqu",
+            "15008223": "vbojghbp",
+            "15008121": "eofqldlk",
+            "15001301": "bzxbdmks",
+            "15001261": "loqenlgj",
+            "15001257": "bnzgpsbu",
+            "15001244": "utchjnmy",
+            "15001124": "jnqapgfd",
+            "15001111": "xmjtfzmb",
+            "15001107": "dalzriqi",
+            "15001190": "wdxkdoyc",
+            "15001479": "qgnjqsmx",
+            "15016672": "pnfhythf",
+            "15017709": "snzuawbe",
+            "15017302": "kmlyctbw",
+            "15093483": "hlgmuyrv",
+            "15094643": "opzndqty",
+            "15095370": "wsqtrkdz",
+            "15095569": "okgqwxul",
+            "15095896": "vmcpfwin",
+            "15096251": "qnprukce",
+            "15097045": "vpoebihj",
+            "15930950": "qgvkrdxo",
+            "15932537": "ntsumpez",
+            "15932802": "ilddhskg",
+            "15931227": "cvsdoigh",
+            "15934251": "sdsdgkgj",
+            "15933423": "desyhjnc",
+            "15934702": "azptswdf",
+            "15931347": "mxdiuvtc",
+            "15001394": "lwrscaps",
+            "15930831": "vvhfcwih",
+            "15000707": "vzogatmk",
+            "15000548": "uvanzsiw",
+            "15000551": "ivzuenmn",
+            "15005322": "itxbflhm",
+            "15005319": "ylidvsjm",
+            "15005305": "qzoyiwhx",
+            "15005296": "nmbzzcpa",
+            "15005282": "fkutzayk",
+            "15005146": "ryckzhfl",
+            "15005265": "fgwegaaf",
+            "15005398": "whrrbvqt",
+            "15005248": "ecfurzxs",
+            "15005234": "lhqlfhwu",
+            "15005220": "ukckrhvc",
+            "15005217": "fkgghafw",
+            "15004511": "ymzwddsq",
+            "15004507": "rfdcbmho",
+            "15004423": "meghsqzv",
+            "15004410": "xpqthire",
+            "15004777": "razvhddu",
+            "15004763": "hmjhdgwu",
+            "15001814": "tvadmcre",
+            "15001623": "osohdjzz",
+            "15002037": "cznchjud",
+            "15002023": "fqnlvlnr",
+            "15001889": "oxvfflux",
+            "15001876": "gmksifvs",
+            "15005631": "hlascpht",
+            "15005442": "rhnyjxud",
+            "15005438": "ryjpsfza",
+            "15005424": "xrelmnar",
+            "15093536": "lahjpszv",
+            "15001549": "idftemmj",
+            "15001535": "wpcpydnj",
+            "15001521": "xivhyzdr",
+            "15001518": "wnwxnxps",
+            "15005747": "wpujtczs",
+            "15005733": "blmhfwix",
+            "15005729": "kjfnynxa",
+            "15005716": "qpgsfwnk",
+            "15005702": "recxyaas",
+            "15005693": "ggbmdhgt",
+            "15005689": "jzthinva",
+            "15004087": "wzlaricg",
+            "15001981": "lisnwqod",
+            "15004630": "sqbsmdrs",
+            "15003042": "kofstxms",
+            "15931378": "ryhsbema",
+            "15003294": "cvmvvpui",
+            "15003280": "yykoxxee",
+            "15003277": "jektcoux",
+            "15003263": "hpbgjqvd",
+            "15003259": "gqnzsvcs",
+            "15003130": "lhvkcteq",
+            "15003126": "lilacopb",
+            "15003113": "wbjraglw",
+            "15017713": "nksnaidi",
+            "15017293": "cjygbkod",
+            "15017894": "dmtvmbyw",
+            "15017880": "qyrbutix",
+            "15093497": "tqjgvdoc",
+            "15094320": "gmlvekxo",
+            "15094612": "dypzwghv",
+            "15094656": "qwrlhbzp",
+            "15094674": "lvgonkbu",
+            "15093522": "pdvtrzon",
+            "15095542": "tjuphnci",
+            "15095573": "djtkrguw",
+            "15093381": "enbsxvqp",
+            "15095865": "awndskft",
+            "15096092": "eciuzwfs",
+            "15095905": "ewjovmrb",
+            "15096194": "dwqpcken",
+            "15096265": "wzbvnpxu",
+            "15096821": "bwozxurg",
+            "15930947": "snvlwrye",
+            "15097058": "ykbnqxpo",
+            "15930964": "yevlqdig",
+            "15930889": "tnfqjgdy",
+            "15933229": "tdifogbd",
+            "15933216": "wedrjhio",
+            "15932731": "xtzumovl",
+            "15932864": "uyruygfg",
+            "15934438": "dhfgrudm",
+            "15934486": "yijemrwn",
+            "15934716": "sutrhdfd",
+            "15931350": "vdbtpjli",
+            "15017877": "gklsebql",
+            "15002350": "qdjfwgmp",
+            "15002435": "lzhrtlkq",
+            "15093404": "wcsfxyeo",
+            "15002815": "wnrqtgdc",
+            "15002567": "xwpdenik",
+            "15004008": "mpyunmjj",
+            "15003966": "hjkdhfio",
+            "15003904": "khpmdiyp",
+            "15003970": "fxmjxzmo",
+            "15004281": "gurjiovl",
+            "15095410": "mivhrlun",
+            "15095759": "ypgarmhf",
+            "15003453": "djdhqhcz",
+            "15003829": "kvohuflq",
+            "15094687": "uibfqyme",
+            "15095746": "wxblgrvj",
+            "15095732": "abnmjrky",
+            "15095454": "eyokanjq",
+            "15096543": "qyjihvws",
+            "15096556": "wnqvroam",
+            "15003541": "kbrjhont",
+            "15017041": "csalgmzt",
+            "15094086": "vkajybho",
+            "15096061": "mtkndovj",
+            "15096128": "yhjupxvi",
+            "15006354": "yhqwhttw",
+            "15006341": "cjiizczh",
+            "15006694": "xgabjgvo",
+            "15006439": "fvzxhopa",
+            "15006456": "mnchjjkw",
+            "15006822": "xsnfbuzn",
+            "15006819": "uiwtpvou",
+            "15006765": "uzxckmwp",
+            "15006751": "segpcekp",
+            "15006748": "nwfylqkd",
+            "15006588": "wrimeuaq",
+            "15006703": "flhwcatw",
+            "15005937": "fmssqpbs",
+            "15005835": "iutnpgge",
+            "15005818": "jebrleon",
+            "15006266": "pugafkgl",
+            "15017187": "iggnmcsl",
+            "15094440": "gefjyvbk",
+            "admin": "25124"
+        };
+
+        // بيانات أسماء المدارس المرتبطة بأسماء المستخدمين
+        const schools = {
+            "15012373": "السلاهيب",
+            "15012390": "المفتى",
+            "15012766": "الحامول الجديدة",
+            "15012752": "قدماء المصريين",
+            "15012749": "ام الشعور الام",
+            "15012735": "الحاج محمد شمس الدين ت أ",
+            "15012721": "السحايت  / ت أ",
+            "15012718": "زوبع",
+            "15012704": "ابو شاهين /ت أ",
+            "15012695": "الحلافى",
+            "15012681": "العنتراوى",
+            "15012678": "القليعة",
+            "15012664": "المناوفة (الشهيدحمادة)",
+            "15012527": "المناوفة الجديدة ( المشرقي )",
+            "15012647": "العشرية الكبرى",
+            "15012770": "جمال عبد الناصر",
+            "15012629": "الشهيد محمود دحدوح",
+            "15012616": "الوحدة بالزعفران",
+            "15012602": "الظافر",
+            "15012593": "ناصر الأم /ت أ",
+            "15012589": "ناصر الجديدة",
+            "15012576": "فريال  ت أ",
+            "15012562": "الأحرار",
+            "15012558": "عزبة سعد",
+            "15012545": "النشاوى/ ت أ",
+            "15012531": "الشهيد محمد عبد النبى يحيى",
+            "15012134": "الطيبة",
+            "15011751": "قلينى/ ت أ",
+            "15012271": "كوم الحجر",
+            "15011973": "قرية 20",
+            "15011969": "الابعادية ت أ",
+            "15011955": "النصر17",
+            "15011942": "ناصر الغربية ثان",
+            "15011938": "قرية 53 ت أ",
+            "15011924": "قرية 69",
+            "15011911": "خميس",
+            "15011907": "إصلاح  الحامول",
+            "15011898": "أبو سكين",
+            "15011884": "الثمانين /ت أ",
+            "15011748": "الطرفاية 5",
+            "15011867": "قرية 7 ت أ",
+            "15011990": "المدينة المنورة ق/9",
+            "15011840": "قرية 8",
+            "15011836": "الطرفاية 2",
+            "15011822": "الطرفاية 4",
+            "15011819": "الشراقوة 41",
+            "15011805": "الشراقوة 45 ت أ",
+            "15011796": "الشهيد سعد صبري 47 سابقا",
+            "15011782": "المجاز الغربى",
+            "15011779": "المجاز الشرقى",
+            "15011765": "الخاشعة",
+            "15012117": "قرية 13 ت أأ",
+            "15011853": "قرية 59 /ت أ",
+            "15011871": "غرب  تيرة ت أ",
+            "15012240": "5 و6 تيرة",
+            "15012236": "الجدية  ت أ",
+            "15012222": "الحلمية أ ت",
+            "15012219": "باب الستين",
+            "15012205": "قرية 36",
+            "15012196": "قربة 11",
+            "15012182": "قربة 77",
+            "15012179": "قربة 12",
+            "15000376": "خالد بن الوليد ق 83 ت أ",
+            "15000362": "تريان  ت أ",
+            "15000331": "مصنع السكر ت أ",
+            "15008272": "العشرية الصغرى ت",
+            "15008033": "ناصر الشرقية",
+            "15007925": "63 الجدية",
+            "15007912": "العزبة السمراء",
+            "15008356": "الطرفاية 6",
+            "15008223": "عبد الرحمن الدسوقى ت أ",
+            "15008121": "قربة 10",
+            "15001301": "قربة 78 ت أ",
+            "15001261": "64 الشرفاء ت أ",
+            "15001257": "شرق البنوان ت أ",
+            "15001244": "حطيبة",
+            "15001124": "الشهيد العميد ماجد صالح",
+            "15001111": "الشهيد نشأت ت أ",
+            "15001107": "ق 47 الجدية ت أ",
+            "15001190": "تعاون اول ت أ",
+            "15001479": "غرب البنوان ت أ",
+            "15016672": "العمرانية",
+            "15017709": "زيدان",
+            "15017302": "قرية 8 ت أ",
+            "15093483": "قرية 44",
+            "15094643": "عزبة صالح",
+            "15095370": "قرية 75 المنصور",
+            "15095569": "65 الخاشعة",
+            "15095896": "الخمسين",
+            "15096251": "قوته ت أ",
+            "15097045": "كوم الدهب ق 10",
+            "15930950": "طرطير",
+            "15932537": "قريه 40 الشراقوة",
+            "15932802": "حميده",
+            "15931227": "الابحر ب",
+            "15934251": "منشية الزعفران",
+            "15933423": "صفوت الحمادى",
+            "15934702": "مدرسة عزبه شحاته الابتدائية",
+            "15931347": "الشبورة",
+            "15001394": "الحامول التجريبية",
+            "15930831": "الزعفران التجريبية",
+            "15000707": "التربية الفكرية",
+            "15000548": "الأمل للصم وضعاف السمع",
+            "15000551": "عبد الحميد للغات",
+            "15005322": "الحامول بنين",
+            "15005319": "الحامول بنات",
+            "15005305": "الزعفران بنين",
+            "15005296": "الزعفران بنات",
+            "15005282": "اصلاح الحامول",
+            "15005146": "الكفر الشرقى",
+            "15005265": "زيدان",
+            "15005398": "غرب تيرة",
+            "15005248": "الحلمية ت أ",
+            "15005234": "السحايت  ت أ",
+            "15005220": "الخاشعة",
+            "15005217": "قرية 7 القديمة   تم الغائها",
+            "15004511": "قرية 20",
+            "15004507": "كوم الحجر",
+            "15004423": "المناوفة",
+            "15004410": "صبري القاضي",
+            "15004777": "مصنع السكر",
+            "15004763": "قرية 69 المنصور",
+            "15001814": "المجاز الشرقى",
+            "15001623": "تيرة محطة 5",
+            "15002037": "الطرفاية 4",
+            "15002023": "قرية 83 ت أ",
+            "15001889": "تريان ت أ",
+            "15001876": "قرية 59 ت أالخاشعة",
+            "15005631": "عبد الرحمن الدسوقي ت أق54",
+            "15005442": "قرية 78 ت أ",
+            "15005438": "قرية 8 ت أ",
+            "15005424": "زوبع",
+            "15093536": "قرية7 الجديدة",
+            "15001549": "قرية 13 ت أ",
+            "15001535": "الثمانين ت أ",
+            "15001521": "قرية 45 ت أ الشراقوة",
+            "15001518": "64 الشرفاء ت أ",
+            "15005747": "القرن ت أ",
+            "15005733": "قرية  36",
+            "15005729": "قرية 47",
+            "15005716": "ابو شاهين ت أ",
+            "15005702": "العشرية الصغرى ت أ",
+            "15005693": "الشهيد نشأت",
+            "15005689": "قليني ت أ",
+            "15004087": "فريال ت أ",
+            "15001981": "النشاوى ت أ",
+            "15004630": "الحاج محمد شمس الدين ت أ",
+            "15003042": "القليعة",
+            "15931378": "الابحر ع",
+            "15003294": "شرق البنوان ت أ",
+            "15003280": "إصلاح الحامول ت أ",
+            "15003277": "ناصر الشرقية",
+            "15003263": "غرب تيره ت أ",
+            "15003259": "الابعادية ت أ",
+            "15003130": "ناصر الام ت أ",
+            "15003126": "الجدية ت أ",
+            "15003113": "غرب البنوان ت أ",
+            "15017713": "البنا ت أ",
+            "15017293": "قرية 53 ت أ المنصور",
+            "15017894": "السمراء",
+            "15017880": "الطرفاية 6",
+            "15093497": "قرية 44 الجدية",
+            "15094320": "قرية 77",
+            "15094612": "الوحدة بالزعفران",
+            "15094656": "عزبة صالح",
+            "15094674": "قرية 63 الجدية",
+            "15093522": "تعاون اول",
+            "15095542": "النصر 17",
+            "15095573": "65 الخاشعة",
+            "15093381": "العمرانية",
+            "15095865": "قرية 75 المنصور",
+            "15096092": "قرية عشرة   10",
+            "15095905": "الخمسين ع",
+            "15096194": "العنتراوى",
+            "15096265": "قوته ت أ",
+            "15096821": "المدينة المنورة ق 9",
+            "15930947": "طرطير ع",
+            "15097058": "قرية 10 كوم الدهب",
+            "15930964": "فصول 12",
+            "15930889": "الشهيد سعد صبرى",
+            "15933229": "40الشراقوه",
+            "15933216": "ناصر الغربية ثان",
+            "15932731": "الاحرار",
+            "15932864": "حميده",
+            "15934438": "منشية الزعفران",
+            "15934486": "الزعفران الرسمية للغات اعدادى",
+            "15934716": "عزبه شحاته الاعدادية",
+            "15931350": "الشبورة",
+            "15017877": "الحامول التجريبية",
+            "15002350": "الحامول المهنية ع",
+            "15002435": "التريية الفكرية",
+            "15093404": "المهنية الامل للصم",
+            "15002815": "عبد الحميد للغات",
+            "15002567": "الحامول بنين",
+            "15004008": "كفر الشرقى",
+            "15003966": "الحامول بنات",
+            "15003904": "اصلاح الحامول",
+            "15003970": "الشهيد الملازم حامد محمد   احمد عياد",
+            "15004281": "غرب تيرة",
+            "15095410": "صبرى القاضى الاعدادية / الثانوية",
+            "15095759": "فصول السحايت الثانوية",
+            "15003453": "الحامول التجارية بنين",
+            "15003829": "الحامول التجارية بنات",
+            "15094687": "غرب تيرة التجارية المشتركة",
+            "15095746": "قرية 8 التجارية",
+            "15095732": "الثمانين التجارية",
+            "15095454": "فصول الاصلاح التجارية",
+            "15096543": "الحجر الزراعية",
+            "15096556": "الحجر المهنية الزراعية",
+            "15003541": "الحامول الصناعية بنين",
+            "15017041": "الشهيد محمد رضا  الشناوى الصناعية  بنات",
+            "15094086": "مصنع السكر الصناعية",
+            "15096061": "صناعى الحامول المهنى",
+            "15096128": "الزعفران الصناعية المهنية",
+            "15006354": "مصطفى كامل",
+            "15006341": "ناصر 46",
+            "15006694": "الايمان",
+            "15006439": "5و6 تيرة",
+            "15006456": "الامل 75",
+            "15006822": "قرية 18",
+            "15006819": "الجدية 62",
+            "15006765": "الابعادية",
+            "15006751": "الطيبة  54",
+            "15006748": "الدياسطى",
+            "15006588": "مغلق    قرية 78",
+            "15006703": "قرية  20",
+            "15005937": "الخاشعة",
+            "15005835": "الماظة",
+            "15005818": "تعاون أول",
+            "15006266": "الحجاج",
+            "15017187": "ابو سكين",
+            "15094440": "قرية 77",
+            "admin": "مشرف النظام"
+        };
+        
+        // الحصول على العناصر من الصفحة
+        const loginContainer = document.getElementById('loginContainer');
+        const mainContainer = document.getElementById('mainContainer');
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const displayUsername = document.getElementById('displayUsername');
+        const displaySchoolName = document.getElementById('displaySchoolName');
+        const welcomeSchoolName = document.getElementById('welcomeSchoolName');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        
+        // التحقق من حالة تسجيل الدخول عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            
+            if (loggedInUser) {
+                // إذا كان المستخدم مسجل الدخول بالفعل
+                showMainPage(loggedInUser);
+            } else {
+                // إذا لم يكن مسجل الدخول
+                showLoginPage();
+            }
+        });
+        
+        // معالجة تسجيل الدخول
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+            
+            // التحقق من بيانات الدخول
+            if (users[username] && users[username] === password) {
+                // حفظ حالة تسجيل الدخول
+                localStorage.setItem('loggedInUser', username);
+                
+                // عرض الصفحة الرئيسية
+                showMainPage(username);
+                
+                // إخفاء رسالة الخطأ إذا كانت ظاهرة
+                errorMessage.style.display = 'none';
+            } else {
+                // عرض رسالة الخطأ
+                errorMessage.style.display = 'block';
+                
+                // اهتزاز حقول الإدخال
+                usernameInput.style.animation = 'shake 0.5s';
+                passwordInput.style.animation = 'shake 0.5s';
+                
+                // إزالة تأثير الاهتزاز بعد الانتهاء
+                setTimeout(() => {
+                    usernameInput.style.animation = '';
+                    passwordInput.style.animation = '';
+                }, 500);
+                
+                // تفريغ حقل كلمة المرور
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        });
+        
+        // معالجة تسجيل الخروج
+        logoutBtn.addEventListener('click', function() {
+            // مسح بيانات تسجيل الدخول
+            localStorage.removeItem('loggedInUser');
+            
+            // إظهار صفحة تسجيل الدخول
+            showLoginPage();
+            
+            // تفريغ الحقول
+            usernameInput.value = '';
+            passwordInput.value = '';
+        });
+        
+        // دالة لعرض صفحة تسجيل الدخول
+        function showLoginPage() {
+            loginContainer.style.display = 'flex';
+            mainContainer.style.display = 'none';
+        }
+        
+        // دالة لعرض الصفحة الرئيسية
+        function showMainPage(username) {
+            loginContainer.style.display = 'none';
+            mainContainer.style.display = 'flex';
+            
+            // الحصول على اسم المدرسة من الكائن schools
+            const schoolName = schools[username] || username;
+            
+            // تحديث اسم المدرسة في الصفحة الرئيسية
+            displaySchoolName.textContent = schoolName;
+            displayUsername.textContent = `اسم المستخدم: ${username}`;
+            welcomeSchoolName.textContent = schoolName;
+        }
+        
+        // إضافة تأثير اهتزاز لحقول الإدخال
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // إضافة تأثير عند النقر على الأزرار
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                // إضافة تأثير النقر
+                this.style.transform = 'scale(0.95)';
+                
+                // استعادة الحجم الطبيعي بعد 200 مللي ثانية
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+                
+                // إظهار رسالة تأكيد (يمكن إزالتها إذا أردت)
+                console.log(`سيتم فتح الرابط: ${this.href}`);
+            });
+        });
+        
+        // إضافة تأثيرات عشوائية للأزرار عند التمرير
+        document.querySelectorAll('.button-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                // تأثير عشوائي للأيقونة
+                const icon = this.querySelector('.button-icon');
+                if (icon) {
+                    icon.style.transform = `rotate(${Math.random() * 20 - 10}deg) scale(1.1)`;
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                // إعادة الأيقونة إلى وضعها الطبيعي
+                const icon = this.querySelector('.button-icon');
+                if (icon) {
+                    icon.style.transform = 'rotate(0deg) scale(1)';
+                }
+            });
+        });
+        
+        // تفعيل زر Enter لتسجيل الدخول
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loginForm.dispatchEvent(new Event('submit'));
+            }
+        });
+        
+        // جعل اسم المستخدم يظهر تلقائياً عند تحميل الصفحة
+        usernameInput.focus();
+    </script>
+</body>
+</html>
